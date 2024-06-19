@@ -10,7 +10,7 @@ Ainsi, durant toutes vos expérimentations, prenez des photos et des vidéos pou
 # Préliminaires
 
 - connexion au PC: etudiant / _turtlebot4
-- vérifier que le PC est connecté au réseau wifi: RHOBAN_100 / h12D!5j_
+- vérifier que le PC est connecté au réseau wifi: RHOBAN_100
 - placer le robot sur sa base d'acceuil (il se met en marche automatiquement)
 - pour l'éteindre (plus tard):
     - le déplacer hors de sa base d'accueil, puis appuyer sur le bouton central (gros bouton circulaire) pendant 10 sec jusqu'à ce qu'il s'éteigne (il émet une mélodie).
