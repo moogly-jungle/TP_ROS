@@ -10,7 +10,7 @@ Ainsi, durant toutes vos expérimentations, prenez des photos et des vidéos pou
 # Préliminaires
 
 - connexion au PC: etudiant / _turtlebot4
-- vérifier que le PC est connecté au réseau wifi: RHOBAN_100
+- vérifier que le PC est connecté au réseau wifi: RHOBAN_100 / h12D!5j_
 - placer le robot sur sa base d'acceuil (il se met en marche automatiquement)
 - pour l'éteindre (plus tard):
     - le déplacer hors de sa base d'accueil, puis appuyer sur le bouton central (gros bouton circulaire) pendant 10 sec jusqu'à ce qu'il s'éteigne (il émet une mélodie).
@@ -102,6 +102,22 @@ Dans cette partie, on va écrire notre premier noeud ROS.
 ## Déplacements du robot
 
 - Ecrire un noeud qui fait avancer le robot pendant 5 secondes, et le fait tourner sur lui-même pendant 5 secondes dans le sens trigo. Vous vous inspirerez de l'exemple pour publier dans la topic /cmd_vel
+
+- Modifier le noeud précédent en intégrant la lecture du lidar (/scan). Faite en sorte que le robot tourne sur lui-même, et s'arrête lorsque qu'il fait face à un passage libre sur un mètre. A ce moment là, le robot avance d'un mètre. Concrètement:
+    - le robot tourne sur lui-même.
+    - l'arrête lorsqu'il fait face à un passage (suffisamment large pour lui) d'au moins 1 mètre.
+    - le robot avance alors d'un mètre.
+
+- intégrez l'affichage de l'odométrie au noeud précédent (/odom), et expliquez les informations qu'il fournit.
+
+- En utilisant les informations fournies pas le topic /odom, écrivez un noeud permettant de se rendre à un point de coordonnées fournies par l'utilisateur sous forme cartésiennes (x,y). Dans un second temps, on pourra tenir compte d'une orientation cible fournie également par l'utilisateur.
+Concrêtement, le robot se tournera vers sa cible, puis s'y rendra en ligne droite, et enfin, tournera sur lui-même pour prendre l'orientation cible.
+
+- Modifiez le noeux précédent de telle sorte à éviter d'éventuel obstacle.
+
+## Slam
+
+- testez les fonctionnalités de slam et de navigation décrite dans la documentation.
 
 # Annexes
 
