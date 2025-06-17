@@ -4,10 +4,8 @@ sudo apt update -y
 sudo apt upgrade -y
 sudo apt install -y git-all
 sudo apt install -y emacs
-echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+echo "alias emacs=\"emacs -nw\"" >> ~/.bashrc
 sudo apt install -y curl
-# ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
-
 
 sudo apt install -y software-properties-common
 sudo add-apt-repository universe -y
@@ -31,6 +29,8 @@ git clone https://github.com/turtlebot/turtlebot4.git -b humble
 cd ~/turtlebot4_ws
 rosdep install --from-path src -yi --rosdistro humble
 colcon build --symlink-install
+sudo apt install ros-humble-turtlebot4-navigation -y
 echo "source ~/turtlebot4_ws/install/setup.bash" >> ~/.bashrc
+cd ~
+git clone https://github.com/moogly-jungle/TP_ROS.git
 echo "L'installation est terminée ! Have fun ..."
-

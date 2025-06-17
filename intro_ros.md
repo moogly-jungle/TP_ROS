@@ -2,16 +2,16 @@ Introduction à ROS2 avec Turtlebot4
 ===================================
 
 La formation sera conduite avec comme support le robot TurtleBot 4.
-Base de documentation : https://turtlebot.github.io/turtlebot4-user-manual/)
+Base de documentation : https://turtlebot.github.io/turtlebot4-user-manual/
 
-L'évaluation sera faite par un exposé de 15mn durant la dernière séance qui expliquera votre cheminement durant toutes les séances. L'exposé commencera par une présentation (très succinte) de ROS, puis il détaillera les différentes étapes et expérimentation que vous avez faite.
+L'évaluation sera faite par un exposé de 15mn durant la dernière séance qui expliquera votre cheminement durant toutes les séances. L'exposé commencera par une présentation (très succincte) de ROS, puis il détaillera les différentes étapes et expérimentation que vous avez faite.
 Ainsi, durant toutes vos expérimentations, prenez des photos et des vidéos pour alimenter l'exposé.
 
 # Préliminaires
 
-- connexion au PC: etudiant / _turtlebot4
+- connexion au PC: Rhoban / _turtlebot4
 - vérifier que le PC est connecté au réseau wifi: RHOBAN_100 / h12D!5j_
-- placer le robot sur sa base d'acceuil (il se met en marche automatiquement)
+- placer le robot sur sa base d'accueil (il se met en marche automatiquement)
 - pour l'éteindre (plus tard):
     - le déplacer hors de sa base d'accueil, puis appuyer sur le bouton central (gros bouton circulaire) pendant 10 sec jusqu'à ce qu'il s'éteigne (il émet une mélodie).
 
@@ -22,109 +22,118 @@ Ainsi, durant toutes vos expérimentations, prenez des photos et des vidéos pou
 
 - tous les robots (et les PC) sont sur le même réseau wifi, en revanche chaque paire Robot/PC est "compartimentée" (par des ROS_DOMAIN_ID, cf. partie Multiple Robots) 
 
-- le robot comporte un certain nombre de noeuds ROS, tout comme le create. Cela va nous permettre de le piloter depuis le PC.
+- le robot comporte un certain nombre de nœuds ROS, tout comme le Create3. Cela va nous permettre de le piloter depuis le PC.
 
-# Premier pas avec ROS2
+# Premiers pas avec ROS2
 
-## Visualisaation et utilisation basique du robot
+## Visualisation et utilisation basique du robot
 
-- le robot publie un certain nombre de topics. Elle correspondent aux capteurs, mais également aux actions possibles avec le robot. Pour lister les topics disponibles, tappez la commande suivante dans un terminal (pour ouvrir un terminal, cliquez sur "activités" puis chercher "terminal"):
+- Le robot publie un certain nombre de topics. Ils correspondent aux capteurs, mais également aux actions possibles avec le robot. Pour lister les topics disponibles, tapez la commande suivante dans un terminal (pour ouvrir un terminal, cliquez sur "activités" puis chercher "terminal", ou utilisez le raccourci `CTRL + ALT + T`):
 ```
 ros2 topic list
-```
+``` 
 
-- nous les explorerons un peu plus tard. Dans l'immédiat, pour voir l'étendue des possibilités, vous pouvez lancer la visualisation du robot. Pour cela, explorez la documentation Rviz2.
+- Nous les explorerons un peu plus tard. Dans l'immédiat, pour voir l'étendue des possibilités, vous pouvez lancer la visualisation du robot. Pour cela, explorez la documentation Rviz2.
 (à noter que la caméra n'est pas active tant que le robot est sur sa station d'accueil).
     - à quoi correspond le nuage de point rouge ?
     - observez l'image de la caméra, que voit-on en surimpression ?
-    - en utilisant le bouton "add" sur la gauche, puis en ajoutant le pluggin "TF", faites en sorte d'afficher (seulement) le repère de base du robot (base_link).
+    - en utilisant le bouton "add" sur la gauche, puis en ajoutant le plugin "TF", faites en sorte d'afficher (seulement) le repère de base du robot (base_link).
 
-- tout en concervant la fenêtre de visualisation:
+- Tout en concervant la fenêtre de visualisation:
     - ouvrez un autre terminal
-    - tappez la commande suivante:
+    - tapez la commande suivante:
     ``` 
-    ros2 run teleop_twist_keyboard teleop_twist_keyboard
+    ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/tbot<robot_number>/cmd_vel
     ```
-    Cela permet de piloter de façon très grossière le robot avec les touches du clavier (il faut que le terminal ait le focus). Vous pouvez modifier la vitesse. Ca n'est pas trop trop pratique.
-    - vous pouvez le piloter avec le joypad. Pour cela allumez le joypad (bouton central), contrôler que la led du joypad est bleue. Déplacez le robot en maintenant L1 ou R1 et en vous servant du joystick de gauche (!! l'appairage du joypad est parfois très lent !!).
-    - deplacez le robot, qu'observez vous dans la fenêtre de visualisation ?
-    - dans la fenêtre de visualisation, sur la gauche, changez la "Fixed Frame" de "base_link" à "odom". Déplacez de nouveau le robot. Qu'observez vous ?
-    - A quoi fait référence le terme "odom" ?
+    Cela permet de piloter de façon très grossière le robot avec les touches du clavier (il faut que le terminal ait le focus). Vous pouvez modifier la vitesse. Cependant, ce mode de téléopération n'est pas très pratique.
+    - vous pouvez le piloter avec la manette. Pour cela allumez la manette (bouton home), contrôler que la led de la manette est bleue. Déplacez le robot en maintenant L1 ou R1 et en vous servant du joystick de gauche (Attention, l'appairage de la manette est parfois très lent).
+    - déplacez le robot, qu'observez vous dans la fenêtre de visualisation ?
+    - dans la fenêtre de visualisation, sur la gauche, changez la "Fixed Frame" de "base_link" à "odom". Déplacez de nouveau le robot. Qu'observez-vous ?
+    - à quoi fait référence le terme "odom" ?
 
 ## Exploration des topics
 
-Le concept de topic est central dans ROS. Il permet d'obtenir et d'envoyer des informations aux différents composants du robots.
+Le concept de topic est central dans ROS. Il permet d'envoyer et de recevoir des messages aux différents composants du robots.
 
 - Dans un terminal, exécutez la commande:
 ```
 ros2 topic --help
 ```
 En déduire la commande pour lister les différentes topic disponibles (déjà vue).
-- repérez la topic liée à la batterie du robot, quel est son identifiant ?
-- affichez l'état de la batterie (soyez patient, c'est un peu long, l'état de la battery n'est pas donné à haute fréquence). C'est toujours au moyen de `ros2 topic`, mais avec une autre commande
-- pour avoir plus d'information, cherchez la définition du message lié à la topic de la batterie. Pour ce faire, utiliser les commandes
+{soluce: `ros2 topic list`}
+
+- repérez le topic liée à la batterie du robot, quel est son identifiant ?
+{soluce: `/tbot<robot_number>/battery_state`}
+- affichez l'état de la batterie (soyez patient, c'est un peu long, l'état de la batterie n'est pas donné à haute fréquence). C'est toujours au moyen de `ros2 topic < ... >`, mais avec une autre commande
+{soluce: `ros2 topic echo /tbot<robot_number>/battery_state`}
+- pour avoir plus d'information, cherchez la définition du message lié au topic de la batterie. Pour ce faire, utiliser les commandes suivantes :
 ```
 ros2 topic info <topic_id>
 ros2 interface show <topic_type>
 ```
-Vous obtiendrez des informations plus précise (si le message est bien rédigé!). Notamment, quelle est l'unité de la capacité de la batterie ?
-- comparez avec la topic `/imu`
-- à quoi sert cette dernière topic ?
+Vous obtiendrez des informations plus précises (si le message est bien rédigé!). Notamment, quelle est l'unité de la capacité de la batterie ?
+- comparez avec le topic `/tbot<robot_number>/imu`
+- à quoi sert ce dernier topic ?
 - à quoi sert la commande `ros2 topic bw` ?
-- explorez les topics suivantes (à quoi servent-elles?):
-    - `/cliff_intensity`
-    - `/dock_status`
-    - `/hazard_detection`
-    - `/ip`
-    - `/joy`
-    - `/odom`
-    - `/wheel_vels`
-    - `/diagnostics`
-Répondez aux questions suivantes:
+{soluce: à donner une évaluation de la bande passante en octet/sec}
+- explorez les topics suivantes (à quoi servent-ils?):
+    - `/tbot<robot_number>/cliff_intensity`
+    - `/tbot<robot_number>/dock_status`
+    - `/tbot<robot_number>/hazard_detection`
+    - `/tbot<robot_number>/ip`
+    - `/tbot<robot_number>/joy`
+    - `/tbot<robot_number>/odom`
+    - `/tbot<robot_number>/wheel_vels`
+    - `/tbot<robot_number>/diagnostics`
+
+- répondez aux questions suivantes:
     - en quoi sont exprimées les vitesses des roues ?
+{soluce: `ros2 topic info /tbot<robot_number>/wheel_vels` puis `ros2 interface show irobot_create_msgs/msg/WheelVels`}
     - quel sont les types des informations fournies par `odom` et à quoi servent-ils ?
- 
-- toujours en ligne de commande, en utilisant la topic `cmd_vel`, mais cette fois pour publier dedans, faite bouger le robot ! Le robot a un certain temps de latence, il faut publier plusieurs fois avant d'avoir un résultat, n'hésitez pas à consultez l'aide de la commande que vous utiliserez. 
+    L'orientation d'un robot est un concept compliqué, il ne s'agit pas de le comprendre totalement à notre niveau. Néanmoins, on retiendra que plusieurs systèmes sont possibles: Euler, matrices de rotation, quaternion. N'hésitez pas à chercher un peu. On peut passer de l'un à l'autre grâce à cet outil: https://www.andre-gaschler.com/rotationconverter/.
+    {soluce: PoseWithCovariance, Pose, Point, Quaternion}
 
-## Ecriture d'un Noeud ROS
+- toujours en ligne de commande, en utilisant le topic `cmd_vel`, mais cette fois pour y publier un message et faire bouger le robot ! Le robot a un certain temps de latence, il faut publier plusieurs fois avant d'avoir un résultat, n'hésitez pas à consultez l'aide de la commande que vous utiliserez. 
 
-Dans cette partie, on va écrire notre premier noeud ROS.
+## Écriture d'un nœud ROS
 
-- Testez le noeud proposé par la documentation du turtlebot4 ici:
+Dans cette partie, nous allons écrire un premier nœud ROS.
+
+- Testez le nœud proposé par la documentation du turtlebot4 ici:
  https://turtlebot.github.io/turtlebot4-user-manual/tutorials/first_node_python.html
+ (attention, le bouton dont parle l'exemple est le bouton du Create3, pas du "chapeau" Clearpath robotics au dessus)
 
-- En vous inspirant de cet exemple, écrire un noeud (en python) dont la seule fonction est d'afficher un état partiel de la batterie:
+- En vous inspirant de cet exemple, écrire un nœud (en python) dont la seule fonction est d'afficher un état partiel de la batterie (en indiquant les unités des valeurs):
   - sa tension 
   - sa température
   - sa capacité
-  En indiquant les unités utilisées.
 
 ## Déplacements du robot
 
-- Ecrire un noeud qui fait avancer le robot pendant 5 secondes, et le fait tourner sur lui-même pendant 5 secondes dans le sens trigo. Vous vous inspirerez de l'exemple pour publier dans la topic /cmd_vel
+- Écrire un nœud qui fait avancer le robot pendant 5 secondes, et le fait tourner sur lui-même pendant 5 secondes dans le sens trigonométrique. Vous vous inspirerez de l'exemple pour publier dans le topic `cmd_vel`
 
-- Modifier le noeud précédent en intégrant la lecture du lidar (/scan). Faite en sorte que le robot tourne sur lui-même, et s'arrête lorsque qu'il fait face à un passage libre sur un mètre. A ce moment là, le robot avance d'un mètre. Concrètement:
+- Modifier le nœud précédent en intégrant la lecture du lidar (`scan`). Faites en sorte que le robot tourne sur lui-même, et s'arrête lorsque qu'il fait face à un passage libre sur un mètre. À ce moment là, le robot avance d'un mètre. Concrètement:
     - le robot tourne sur lui-même.
-    - l'arrête lorsqu'il fait face à un passage (suffisamment large pour lui) d'au moins 1 mètre.
+    - s'arrête lorsqu'il fait face à un passage (suffisamment large pour lui) d'au moins un mètre.
     - le robot avance alors d'un mètre.
 
-- intégrez l'affichage de l'odométrie au noeud précédent (/odom), et expliquez les informations qu'il fournit.
+- Intégrez l'affichage de l'odométrie au nœud précédent (`odom`), et expliquez les informations qu'il fournit.
 
-- En utilisant les informations fournies pas le topic /odom, écrivez un noeud permettant de se rendre à un point de coordonnées fournies par l'utilisateur sous forme cartésiennes (x,y). Dans un second temps, on pourra tenir compte d'une orientation cible fournie également par l'utilisateur.
-Concrêtement, le robot se tournera vers sa cible, puis s'y rendra en ligne droite, et enfin, tournera sur lui-même pour prendre l'orientation cible.
+- En utilisant les informations fournies pas le topic `odom`, écrivez un nœud permettant de se rendre à un point de coordonnées fournies par l'utilisateur sous forme cartésiennes (x,y). Dans un second temps, on pourra tenir compte d'une orientation cible fournie également par l'utilisateur.
+Concrètement, le robot se tournera vers sa cible, puis s'y rendra en ligne droite, et enfin, tournera sur lui-même pour prendre l'orientation cible.
 
-- Modifiez le noeux précédent de telle sorte à éviter d'éventuel obstacle.
+- Modifiez le nœud précédent de telle sorte à éviter d'éventuels obstacles.
 
 ## Slam
 
-- testez les fonctionnalités de slam et de navigation décrite dans la documentation.
+- Testez les fonctionnalités de slam et de navigation décrites dans la documentation.
 
 # Annexes
 
 ## Installation de ROS et du Turtlebot4
-- sous Ubuntu 22.04.4 (avec droit d'administrateur)
+- sous Ubuntu 22.04 (avec droits d'administrateur)
 
-installation de 
+Installation de : 
 - RO2 humble (https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
 - puis Turtlebot4 (https://turtlebot.github.io/turtlebot4-user-manual/)
 ```
