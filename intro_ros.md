@@ -26,6 +26,41 @@ Ainsi, durant toutes vos expérimentations, prenez des photos et des vidéos pou
 
 # Premiers pas avec ROS2
 
+## Commandes utiles
+
+Package :​
+
+    ros2 run <nom_package> <nom_executable>​
+    ros2 launch <nom_package> <nom_launch>​
+    rqt_graph​
+
+Node :​
+
+    ros2 node list​
+    ros2 node info <nom_node>​
+
+
+Topic :​
+
+    ros2 topic list​
+    ros2 topic info <nom_topic>​
+    ros2 topic type <nom_topic>​
+    ros2 topic echo <nom_topic>​
+    ros2 topic pub <fréquence> <nom_topic> <commande>​
+
+Service :​
+
+    ros2 service list​
+    ros2 service type <nom_service>​
+    ros2 service find <nom_service>
+    ros2 service call <nom_service> <type_service> <arguments>​
+
+Action : ​
+
+    ros2 action list​
+    ros2 action info <nom_action>​
+    ros2 action send_goal <nom_action> <type_action> <valeurs>​
+
 ## Visualisation et utilisation basique du robot
 
 - Le robot publie un certain nombre de topics. Ils correspondent aux capteurs, mais également aux actions possibles avec le robot. Pour lister les topics disponibles, tapez la commande suivante dans un terminal (pour ouvrir un terminal, cliquez sur "activités" puis chercher "terminal", ou utilisez le raccourci `CTRL + ALT + T`):
@@ -33,8 +68,8 @@ Ainsi, durant toutes vos expérimentations, prenez des photos et des vidéos pou
 ros2 topic list
 ``` 
 
-- Nous les explorerons un peu plus tard. Dans l'immédiat, pour voir l'étendue des possibilités, vous pouvez lancer la visualisation du robot. Pour cela, explorez la documentation Rviz2.
-(à noter que la caméra n'est pas active tant que le robot est sur sa station d'accueil).
+- Nous les explorerons un peu plus tard. Dans l'immédiat, pour voir l'étendue des possibilités, vous pouvez lancer la visualisation du robot. Pour cela, explorez la documentation Rviz2 et du Turtlebot4. Vous pouvez notamment regarder les différents arguments que l'ont peut passer à une commande `ros2 launch` en utilisant l'option `-s` ou `--show-args`.
+(à noter que la caméra n'est pas active tant que le robot est sur sa station d'accueil et qu'il faudra probablement modifier à l'aide de l'interface graphique le topic utilisé par Rviz et le remplacer un topic se terminant par `image_raw`).
     - à quoi correspond le nuage de point rouge ?
     - observez l'image de la caméra, que voit-on en surimpression ?
     - en utilisant le bouton "add" sur la gauche, puis en ajoutant le plugin "TF", faites en sorte d'afficher (seulement) le repère de base du robot (base_link).
@@ -160,6 +195,9 @@ cd ~
 git clone https://github.com/moogly-jungle/TP_ROS.git
 echo "L'installation est terminée ! Have fun ..."
 ```
+
+
+
 
 
 
