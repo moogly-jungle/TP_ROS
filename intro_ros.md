@@ -60,12 +60,9 @@ Le concept de topic est central dans ROS. Il permet d'envoyer et de recevoir des
 ros2 topic --help
 ```
 En déduire la commande pour lister les différentes topic disponibles (déjà vue).
-{soluce: `ros2 topic list`}
 
 - repérez le topic liée à la batterie du robot, quel est son identifiant ?
-{soluce: `/tbot<robot_number>/battery_state`}
 - affichez l'état de la batterie (soyez patient, c'est un peu long, l'état de la batterie n'est pas donné à haute fréquence). C'est toujours au moyen de `ros2 topic < ... >`, mais avec une autre commande
-{soluce: `ros2 topic echo /tbot<robot_number>/battery_state`}
 - pour avoir plus d'information, cherchez la définition du message lié au topic de la batterie. Pour ce faire, utiliser les commandes suivantes :
 ```
 ros2 topic info <topic_id>
@@ -75,7 +72,6 @@ Vous obtiendrez des informations plus précises (si le message est bien rédigé
 - comparez avec le topic `/tbot<robot_number>/imu`
 - à quoi sert ce dernier topic ?
 - à quoi sert la commande `ros2 topic bw` ?
-{soluce: à donner une évaluation de la bande passante en octet/sec}
 - explorez les topics suivantes (à quoi servent-ils?):
     - `/tbot<robot_number>/cliff_intensity`
     - `/tbot<robot_number>/dock_status`
@@ -88,10 +84,8 @@ Vous obtiendrez des informations plus précises (si le message est bien rédigé
 
 - répondez aux questions suivantes:
     - en quoi sont exprimées les vitesses des roues ?
-{soluce: `ros2 topic info /tbot<robot_number>/wheel_vels` puis `ros2 interface show irobot_create_msgs/msg/WheelVels`}
     - quel sont les types des informations fournies par `odom` et à quoi servent-ils ?
     L'orientation d'un robot est un concept compliqué, il ne s'agit pas de le comprendre totalement à notre niveau. Néanmoins, on retiendra que plusieurs systèmes sont possibles: Euler, matrices de rotation, quaternion. N'hésitez pas à chercher un peu. On peut passer de l'un à l'autre grâce à cet outil: https://www.andre-gaschler.com/rotationconverter/.
-    {soluce: PoseWithCovariance, Pose, Point, Quaternion}
 
 - toujours en ligne de commande, en utilisant le topic `cmd_vel`, mais cette fois pour y publier un message et faire bouger le robot ! Le robot a un certain temps de latence, il faut publier plusieurs fois avant d'avoir un résultat, n'hésitez pas à consultez l'aide de la commande que vous utiliserez. 
 
